@@ -44,18 +44,7 @@ namespace Part_6__Loops
                     Thread.Sleep(500);
 
                     //fake loading animated to 3 dots
-                    Console.WriteLine("Loading");
-                    Thread.Sleep(500);
-                    Console.Clear();
-                    Console.WriteLine("Loading.");
-                    Thread.Sleep(500);
-                    Console.Clear();
-                    Console.WriteLine("Loading..");
-                    Thread.Sleep(500);
-                    Console.Clear();
-                    Console.WriteLine("Loading...");
-                    Thread.Sleep(1000);
-                    Console.Clear();
+                    loading();
 
                     //wait 1 second then proceed
                     Thread.Sleep(1000);
@@ -70,10 +59,18 @@ namespace Part_6__Loops
                     while (correctMinMax == false)
                     {
                         //ask user for min and max
-                        Console.WriteLine("Please enter a minimum number");
-                        min = Convert.ToDouble(Console.ReadLine());
+
+                        Console.WriteLine("Please enter a minimum number:");
+                        while (!double.TryParse(Console.ReadLine(), out min))
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid number:");
+                        }
+
                         Console.WriteLine("Please enter a maximum number");
-                        max = Convert.ToDouble(Console.ReadLine());
+                        while (!double.TryParse(Console.ReadLine(), out max))
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid number:");
+                        }
 
                         if (min > max)
                         {
@@ -118,21 +115,10 @@ namespace Part_6__Loops
                     Console.WriteLine("You chose Simple Banking App");
                     Console.Clear();
                     Thread.Sleep(500);
-                    //fake loading animated to 3 dots
-                    Console.WriteLine("Loading");
-                    Thread.Sleep(500);
-                    Console.Clear();
-                    Console.WriteLine("Loading.");
-                    Thread.Sleep(500);
-                    Console.Clear();
-                    Console.WriteLine("Loading..");
-                    Thread.Sleep(500);
-                    Console.Clear();
-                    Console.WriteLine("Loading...");
-                    Thread.Sleep(1000);
-                    Console.Clear();
 
-                    
+                    loading();
+
+
                     //wait 1 second then proceed
 
                     Thread.Sleep(500);
@@ -156,7 +142,7 @@ namespace Part_6__Loops
                         //title (maybe add text art later)
                         Console.WriteLine("Welcome to the Bank of Blorb.");
                         //current balance
-                        Console.WriteLine("Current Balance: $" + balance);
+                        
                         Console.WriteLine();
                         //ask what u wanna do
                         Console.WriteLine("What would you like to do?");
@@ -165,6 +151,8 @@ namespace Part_6__Loops
                         Console.WriteLine("3 - Bill Payments");
                         Console.WriteLine("4 - Account Balance");
                         Console.WriteLine("5 - Exit");
+                        Console.WriteLine();
+                        Console.WriteLine("Please select an option:");
 
                         //user selects deposit
                         selection = Console.ReadLine();
@@ -173,7 +161,12 @@ namespace Part_6__Loops
                         {
                             Console.WriteLine();
                             Console.WriteLine("Please enter a deposit amount");
-                            deposit = Convert.ToDouble(Console.ReadLine());
+
+                            while (!double.TryParse(Console.ReadLine(), out deposit) || deposit < 0)
+                            {
+                                Console.WriteLine("Invalid input. Please enter a valid positive number:");
+                            }
+
                             balance += deposit;
                             Console.Clear();
                             Thread.Sleep(500);
@@ -191,7 +184,11 @@ namespace Part_6__Loops
                         {
                             Console.WriteLine();
                             Console.WriteLine("Please enter a withdraw amount");
-                            withdraw = Convert.ToDouble(Console.ReadLine());
+
+                            while (!double.TryParse(Console.ReadLine(), out withdraw) || withdraw < 0)
+                            {
+                                Console.WriteLine("Invalid input. Please enter a valid positive number:");
+                            }
 
                             //check if user has enough money
                             bool invalidwit = false;
@@ -204,8 +201,13 @@ namespace Part_6__Loops
                                     balance -= charge;
                                     Thread.Sleep(1500);
                                     Console.Clear();
-                                    Console.WriteLine("Please enter a withdraw amount");
-                                    withdraw = Convert.ToDouble(Console.ReadLine());
+                                    Console.WriteLine("Please enter a valid withdraw amount");
+                                    Console.WriteLine("You have $" + balance + " in your account.");
+
+                                    while (!double.TryParse(Console.ReadLine(), out withdraw) || withdraw < 0)
+                                    {
+                                        Console.WriteLine("Invalid input. Please enter a valid positive number:");
+                                    }
                                 }
                                 else
                                 {
@@ -227,147 +229,108 @@ namespace Part_6__Loops
 
                         }
 
+                        //select bill payments
+                        else if (selection == "3")
+                        {
+                            Console.WriteLine("Please enter a bill payments amount");
 
+                            while (!double.TryParse(Console.ReadLine(), out billpayments) || billpayments < 0)
+                            {
+                                Console.WriteLine("Invalid input. Please enter a valid positive number:");
+                            }
 
+                            //check if bill payments is valid
+                            bool invalidbill = false;
+                            while (invalidbill == false)
+                            {
+                                if (billpayments > (balance - charge))
+                                {
+                                    Console.WriteLine("You do not have enough money to pay that amount");
+                                    Console.WriteLine("Service fee deducted: $" + charge + " Try again.");
+                                    balance -= charge;
+                                    Thread.Sleep(1500);
+                                    Console.Clear();
+                                    Console.WriteLine("Please enter a valid bill payment amount");
+                                    Console.WriteLine("You have $" + balance + " in your account.");
 
+                                    while (!double.TryParse(Console.ReadLine(), out billpayments) || billpayments < 0)
+                                    {
+                                        Console.WriteLine("Invalid input. Please enter a valid positive number:");
+                                    }
+                                }
+                                else
+                                {
+                                    invalidbill = true;
+                                }
+                            }
 
+                            Console.Clear();
+                            Thread.Sleep(500);
+                            Console.WriteLine("Updated Balance: $" + balance);
+                            //charge 0.75
+                            balance -= charge;
+                            Console.WriteLine("Transaction fee: $" + charge);
+                            Thread.Sleep(1500);
+                            Console.Clear();
+                        }
 
+                        //select account balance
+                        else if (selection == "4")
+                        {
+                            Console.WriteLine("Current Account Balance: $" + balance);
+                            balance -= charge;
+                            Console.WriteLine("Transaction fee: $" + charge);
+                            Console.WriteLine();
+                            Console.WriteLine("Updated Balance: $" + balance);
+                            Console.WriteLine();    
+                            Console.WriteLine("Press ENTER to continue.");
+                            Console.ReadLine();
+                            Console.Clear();
 
+                        }
+                        else if (selection == "5")
+                        {
+                            bankopen = false;
+                        }
 
-
-
-
-
-
-
-
-
-
-                        ////select deposit
-                        //selection = Console.ReadLine();
-
-                        //if (selection == "1")
-                        //{
-                        //    Console.WriteLine("Please enter a deposit amount");
-                        //    deposit = Convert.ToDouble(Console.ReadLine());
-                        //    balance += deposit;
-                        //    Console.Clear();
-                        //    Thread.Sleep(500);
-                        //    Console.WriteLine("Updated Balance: $" + balance);
-                        //    //charge 0.75
-                        //    balance -= charge;
-                        //    Console.WriteLine("Transaction fee: $" + charge);
-                        //    Thread.Sleep(1500);
-                        //    Console.Clear();
-                        //}
-
-
-
-
-                        //bool enoughmoney = false;
-
-
-
-                        ////select withdraw
-                        //if (selection == "2")
-                        //{
-                        //    Console.WriteLine("Please enter a withdraw amount");
-                        //    withdraw = Convert.ToDouble(Console.ReadLine());
-                        //    balance -= withdraw;
-                        //    Console.Clear();
-                        //    Thread.Sleep(500);
-                        //    Console.WriteLine("Updated Balance: $" + balance);
-                        //    //charge 0.75
-                        //    balance -= charge;
-                        //    Console.WriteLine("Transaction fee: $" + charge);
-                        //    Thread.Sleep(1500);
-                        //    Console.Clear();
-
-                        //    while (enoughmoney == false)
-                        //    {
-                        //        if (balance < withdraw)
-                        //        {
-                        //            Console.WriteLine("You do not have enough money to withdraw that amount.");
-                        //            Console.WriteLine("Please try again.");
-                        //            Console.WriteLine();
-                        //            Console.WriteLine("Press ENTER to continue.");
-                        //            Console.ReadLine();
-                        //            Console.Clear();
-                        //            //charge 0.75
-                        //            balance -= charge;
-                        //            Console.WriteLine("Transaction fee: $" + charge);
-                        //            Thread.Sleep(1500);
-                        //            Console.Clear();
-                        //        }
-                        //        else
-                        //        {
-                        //            enoughmoney = true;
-                        //        }
-                        //    }
-
-                        //}
-
-                        ////select bill payments
-                        //else if (selection == "3")
-                        //{
-                        //    Console.WriteLine("Please enter a bill payments amount");
-                        //    billpayments = Convert.ToDouble(Console.ReadLine());
-                        //    balance -= billpayments;
-                        //    Console.Clear();
-                        //    Thread.Sleep(500);
-                        //    Console.WriteLine("Updated Balance: $" + balance);
-                        //    //charge 0.75
-                        //    balance -= charge;
-                        //    Console.WriteLine("Transaction fee: $" + charge);
-                        //    Thread.Sleep(1500);
-                        //    Console.Clear();
-                        //}
-
-                        //////select account balance
-                        ////else if (selection == "4")
-                        ////{
-                        ////    Console.WriteLine("Account Balance: $" + balance);
-                        ////    //charge 0.75
-                        ////    balance -= charge;
-                        ////    Console.WriteLine("Transaction fee: $" + charge);
-                        ////    Console.WriteLine();
-                        ////    Console.WriteLine("Updated Balance: $" + balance);
-                        ////    Console.WriteLine();
-                        ////    Console.WriteLine("Press ENTER to continue.");
-                        ////    Console.Clear();
-
-                        ////}
-                        //else if (selection == "5")
-                        //{
-                        //    bankopen = false;
-                        //}
-
-
-                        ////if any error charge 0.75
-                        //else if (Console.ReadLine() != "1" && Console.ReadLine() != "2" && Console.ReadLine() != "3" && Console.ReadLine() != "4")
-                        //{
-                        //    Console.WriteLine("Invalid choice, service fee deducted.");
-                        //    balance -= charge;
-                        //    Console.WriteLine("Transaction fee: $" + charge);
-                        //    Thread.Sleep(1500);
-                        //    Console.Clear();
-                        //}
-
-
-
+                        //if any error charge 0.75
+                        else if (selection != "1" && selection != "2" && selection != "3" && selection != "4" && selection != "5")
+                        {
+                            Console.WriteLine("Invalid choice, service fee deducted.");
+                            balance -= charge;
+                            Console.WriteLine("Transaction fee: $" + charge);
+                            Thread.Sleep(1500);
+                            Console.Clear();
+                        }
+                        // Add an else if for each valid choice...
+                        else
+                        {
+                            Console.WriteLine("Invalid choice, press ENTER to continue.");
+                            Console.ReadLine();
+                        }
 
 
                     }
 
-
-                }
-                // Add an else if for each valid choice...
-                else
-                {
-                    Console.WriteLine("Invalid choice, press ENTER to continue.");
-                    Console.ReadLine();
                 }
             }
+        }
+
+        //fake loading screen methond
+        public static void loading()
+        {
+            Console.WriteLine("Loading");
+            Thread.Sleep(500);
+            Console.Clear();
+            Console.WriteLine("Loading.");
+            Thread.Sleep(500);
+            Console.Clear();
+            Console.WriteLine("Loading..");
+            Thread.Sleep(500);
+            Console.Clear();
+            Console.WriteLine("Loading...");
+            Thread.Sleep(1000);
+            Console.Clear();
         }
     }
 }
