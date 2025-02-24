@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Making_a_Die_Class_5._5;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,8 +29,7 @@ namespace Part_6__Loops
                 Console.WriteLine();
                 Console.WriteLine("1 - Prompter");
                 Console.WriteLine("2 - Bob's Simple Banking App");
-                Console.WriteLine("...");
-                Console.WriteLine("x - Menu Option x");
+                Console.WriteLine("3 - Die Double Roller");
                 Console.WriteLine("Q - Quit");
                 Console.WriteLine();
                 choice = Console.ReadLine().ToLower().Trim();
@@ -142,7 +142,7 @@ namespace Part_6__Loops
                         //title (maybe add text art later)
                         Console.WriteLine("Welcome to the Bank of Blorb.");
                         //current balance
-                        
+
                         Console.WriteLine();
                         //ask what u wanna do
                         Console.WriteLine("What would you like to do?");
@@ -170,10 +170,10 @@ namespace Part_6__Loops
                             balance += deposit;
                             Console.Clear();
                             Thread.Sleep(500);
-                            Console.WriteLine("Updated Balance: $" + balance);
+                            Console.WriteLine("Updated Balance: " + balance.ToString("C"));
                             //charge 0.75
                             balance -= charge;
-                            Console.WriteLine("Transaction fee: $" + charge);
+                            Console.WriteLine("Transaction fee: " + charge.ToString("C"));
                             Thread.Sleep(1000);
                             Console.Clear();
                         }
@@ -197,12 +197,12 @@ namespace Part_6__Loops
                                 if (withdraw > (balance - charge))
                                 {
                                     Console.WriteLine("You do not have enough money to withdraw that amount");
-                                    Console.WriteLine("Service fee deducted: $" + charge + " Try again.");
+                                    Console.WriteLine("Service fee deducted: " + charge.ToString("C") + " Try again.");
                                     balance -= charge;
                                     Thread.Sleep(1500);
                                     Console.Clear();
                                     Console.WriteLine("Please enter a valid withdraw amount");
-                                    Console.WriteLine("You have $" + balance + " in your account.");
+                                    Console.WriteLine("You have " + balance.ToString("C") + " in your account.");
 
                                     while (!double.TryParse(Console.ReadLine(), out withdraw) || withdraw < 0)
                                     {
@@ -220,10 +220,10 @@ namespace Part_6__Loops
                             //print receipt kinda thing
                             Console.Clear();
                             Thread.Sleep(500);
-                            Console.WriteLine("Updated Balance: $" + balance);
+                            Console.WriteLine("Updated Balance: " + balance.ToString("C"));
                             //charge 0.75
                             balance -= charge;
-                            Console.WriteLine("Transaction fee: $" + charge);
+                            Console.WriteLine("Transaction fee: " + charge.ToString("C"));
                             Thread.Sleep(1000);
                             Console.Clear();
 
@@ -246,12 +246,12 @@ namespace Part_6__Loops
                                 if (billpayments > (balance - charge))
                                 {
                                     Console.WriteLine("You do not have enough money to pay that amount");
-                                    Console.WriteLine("Service fee deducted: $" + charge + " Try again.");
+                                    Console.WriteLine("Service fee deducted: " + charge.ToString("C") + " Try again.");
                                     balance -= charge;
                                     Thread.Sleep(1500);
                                     Console.Clear();
                                     Console.WriteLine("Please enter a valid bill payment amount");
-                                    Console.WriteLine("You have $" + balance + " in your account.");
+                                    Console.WriteLine("You have " + balance.ToString("C") + " in your account.");
 
                                     while (!double.TryParse(Console.ReadLine(), out billpayments) || billpayments < 0)
                                     {
@@ -263,13 +263,13 @@ namespace Part_6__Loops
                                     invalidbill = true;
                                 }
                             }
-
+                            balance -= billpayments;
                             Console.Clear();
                             Thread.Sleep(500);
-                            Console.WriteLine("Updated Balance: $" + balance);
+                            Console.WriteLine("Updated Balance: " + balance.ToString("C"));
                             //charge 0.75
                             balance -= charge;
-                            Console.WriteLine("Transaction fee: $" + charge);
+                            Console.WriteLine("Transaction fee: " + charge.ToString("C"));
                             Thread.Sleep(1500);
                             Console.Clear();
                         }
@@ -277,12 +277,12 @@ namespace Part_6__Loops
                         //select account balance
                         else if (selection == "4")
                         {
-                            Console.WriteLine("Current Account Balance: $" + balance);
+                            Console.WriteLine("Current Account Balance: " + balance.ToString("C"));
                             balance -= charge;
-                            Console.WriteLine("Transaction fee: $" + charge);
+                            Console.WriteLine("Transaction fee: " + charge.ToString("C"));
                             Console.WriteLine();
-                            Console.WriteLine("Updated Balance: $" + balance);
-                            Console.WriteLine();    
+                            Console.WriteLine("Updated Balance: " + balance.ToString("C"));
+                            Console.WriteLine();
                             Console.WriteLine("Press ENTER to continue.");
                             Console.ReadLine();
                             Console.Clear();
@@ -298,7 +298,7 @@ namespace Part_6__Loops
                         {
                             Console.WriteLine("Invalid choice, service fee deducted.");
                             balance -= charge;
-                            Console.WriteLine("Transaction fee: $" + charge);
+                            Console.WriteLine("Transaction fee: " + charge.ToString("C"));
                             Thread.Sleep(1500);
                             Console.Clear();
                         }
@@ -313,20 +313,101 @@ namespace Part_6__Loops
                     }
 
                 }
+                else if (choice == "3")
+                {
+                    // Do option 3
+                    Console.Clear();
+                    Console.WriteLine("You chose Die Double Roller");
+                    Thread.Sleep(1000);
+                    Console.Clear();
+                    Thread.Sleep(500);
+                    loading();
+                    Thread.Sleep(500);
+                    Console.Clear();
+
+                    Die die1, die2;
+                    die1 = new Die();
+                    die2 = new Die();
+
+                    Console.WriteLine("Welcome to Die Double Roller!");
+                    Console.WriteLine("Press Enter to play!");
+                    Console.ReadLine();
+                    bool dicegameActive = true;
+                    Console.Clear();
+                    Console.WriteLine("Press Space to roll the dice!");
+
+                    while (dicegameActive == true)
+                    {
+
+                        if (Console.ReadKey(true).Key == ConsoleKey.Spacebar)
+                        {
+                            Console.Clear();
+                            die1.RollDie();
+                            die2.RollDie();
+                            die1.DrawRoll();
+                            Console.WriteLine(die1.Roll);
+                            die2.DrawRoll();
+                            Console.WriteLine(die2.Roll);
+                        }
+                        //check if the dice roll double
+                        if (die1.Roll != die2.Roll)
+                        {
+                            Console.WriteLine("The dice are not Doubles.");
+                            Thread.Sleep(500);
+                            Console.WriteLine("Press Space to roll the dice again!");
+                        }
+                        else if (die1.Roll == die2.Roll)
+                        {
+                            Console.Clear();
+                            die1.DrawRoll();
+                            Console.WriteLine(die1.Roll);
+                            die2.DrawRoll();
+                            Console.WriteLine(die2.Roll);
+                            Console.WriteLine("The dice are Doubles!");
+                            Thread.Sleep(500);
+                            Console.WriteLine("Goodjob!!");
+                            Thread.Sleep(2000);
+                            Console.Clear();
+                            Console.WriteLine("You Win!!!!!");
+                            Thread.Sleep(3000);
+                            dicegameActive = false;
+                        }
+                    }
+
+                }
+
+                else if (choice == "q")
+                {
+                    // Do option q
+                    Console.Clear();
+                    Console.WriteLine("You chose Quit");
+                    Console.Clear();
+                    Thread.Sleep(500);
+                    loading();
+                    Thread.Sleep(500);
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.WriteLine("Invalid choice, press ENTER to continue.");
+                    Console.ReadLine();
+                }
+                }                
+
             }
-        }
+        
 
         //fake loading screen methond
         public static void loading()
         {
             Console.WriteLine("Loading");
-            Thread.Sleep(500);
+            Thread.Sleep(300);
             Console.Clear();
             Console.WriteLine("Loading.");
-            Thread.Sleep(500);
+            Thread.Sleep(200);
             Console.Clear();
             Console.WriteLine("Loading..");
-            Thread.Sleep(500);
+            Thread.Sleep(100);
             Console.Clear();
             Console.WriteLine("Loading...");
             Thread.Sleep(1000);
